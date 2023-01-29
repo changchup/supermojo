@@ -1,0 +1,30 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "experimentalDecorators": true,
+  "compilerOptions": {
+    "incremental": true,
+    "composite": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "outDir": "build",
+    "experimentalDecorators": true,
+    "lib": [
+      "esnext"
+    ],
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "jest",
+      "express"
+    ],
+  },
+  "include": [
+    "src",
+    "scripts",
+    "prisma",
+    "jest"
+  ]
+}

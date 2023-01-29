@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:14.3
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-dev-password}
+      - POSTGRES_USER=${POSTGRES_USER:-dev-user}
+      - POSTGRES_DB=${POSTGRES_DB:-dev}
+    ports:
+      - ${POSTGRES_PORT:-54322}:5432
+    volumes:
+      - type: volume
+        source: pgdata
+        target: /var/lib/postgresql/data
+      - ./scripts/dev/db:/docker-entrypoint-initdb.d
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - ${REDIS_PORT:-63792}:6379
+    command: redis-server --maxmemory 200mb --maxmemory-policy allkeys-lru --appendonly yes
+    volumes:
+      - type: volume
+        source: redisdata
+        target: /data
+
+volumes:
+  pgdata:
+  redisdata:
