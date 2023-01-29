@@ -4,7 +4,7 @@ import Router from 'express-promise-router'
 // import logger from './lib/logger'
 import { RequestHandler } from 'express'
 import slugService from './slug.service'
-import { createUrl } from './db'
+import { createUrl, getUrl } from './db'
 import logger from './lib/logger'
 
 const router = Router()
@@ -26,7 +26,14 @@ router.put('/url', (async (_req, res) => {
 }) as RequestHandler)
 
 router.get('/:slug', (async (_req, res) => {
-  res.status(501).send('Not Implemented')
+  const slug = _req.params.slug
+  const url = await getUrl(slug)
+  if (url) {
+    res.redirect(302, url)
+  } else {
+    logger.info(`No url found for ${slug}`)
+    res.status(401).json(`No url found for ${slug}`)
+  }
 }) as RequestHandler)
 
 export default router
