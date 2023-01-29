@@ -1,4 +1,11 @@
 services:
+  client:
+    image: nginx
+    ports:
+        - 8000:80
+    volumes:
+        - ./client:/usr/share/nginx/html  
+
   postgres:
     image: postgres:14.3
     environment:

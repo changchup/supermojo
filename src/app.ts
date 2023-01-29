@@ -2,6 +2,7 @@ import express, { Express } from 'express'
 import pino, { Options } from 'pino-http'
 import errorHandler from './middleware/error'
 import routes from './routes'
+import cors from 'cors'
 
 export function makeApp(): Express {
   const app = express()
@@ -22,6 +23,14 @@ export function makeApp(): Express {
         }
       : {}
 
+  if (process.env.NODE_ENV === 'dev') {
+    const allowedOrigins = ['http://localhost:8000']
+
+    const options: cors.CorsOptions = {
+      origin: allowedOrigins
+    }
+    app.use(cors(options))
+  }
   app.use(express.json({ verify: () => true })) // Just force it to parse all requests as json
   app.use(pino(options))
 
@@ -34,6 +43,7 @@ export function makeApp(): Express {
       message: 'Not Found'
     })
   })
+
   return app
 }
 
