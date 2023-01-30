@@ -105,3 +105,27 @@ They don't necessarily need to be implemented (though if you really want to, and
 - To inspect the database:
   - With a UI, `yarn prisma studio`
   - postgres cli, `yarn pg-cli`
+
+## Instructions for Front End
+
+I added an nginx service to docker-compose so no set up needed.  The page is served at http://localhost:8000
+
+## Discussion
+
+### How track opens?
+
+Record requests to each endpoint and store in the database, perhaps with identifying information such as the source ip or hash generated in the browser that .
+
+### Prevent spammers
+
+Spammers will only need a small amount of push back to make it not worthwhile.  So rate limiting by time period based on some form of identification such as a session id (if cookies enabled), device id, ip, agent, browser, operating system, region or some combination of them.  This will not slow down a regular user.
+
+They will need a token created by us that is only useful for a few requests.  This would be created inside the html when the page is loaded.  This would avoid a spammer pretending to be a browser as well.
+
+Or a combination of the above.
+
+### Authenticated Links
+
+When creating the link the user can add a password. This can be used to authenticate when the link is opened.
+
+
