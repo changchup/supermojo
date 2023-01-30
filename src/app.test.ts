@@ -32,3 +32,17 @@ describe('creating a short url -- basic', () => {
     expect(res.headers.location).toEqual(url)
   })
 })
+
+describe('checking input', () => {
+  const url = 'https:www.google.com'
+
+  it('PUT /url with improperly formed url', async () => {
+    const res = await request(app).put('/url').send({ url })
+    expect(res.statusCode).toBe(400)
+  })
+
+  it('PUT /url with no url', async () => {
+    const res = await request(app).put('/url').send({ })
+    expect(res.statusCode).toBe(400)
+  })
+})
